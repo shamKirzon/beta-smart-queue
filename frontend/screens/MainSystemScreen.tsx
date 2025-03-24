@@ -16,7 +16,7 @@ const MainSystemScreen = ({ navigation }: any) => {
           onPress={() => navigation.navigate("TicketGeneratorScreen")}
         >
           <Text className="text-center text-[30px] text-white">
-            TICKET GENERATOR
+            THIS IS NOT A TICKET GENERATOR FOR REPOSITORY PURPOSES!!
           </Text>
         </TouchableOpacity>
 
