@@ -1,6 +1,7 @@
-import { View, Text, TouchableOpacity, Alert } from "react-native";
-import React from "react";
-import { useState } from "react";
+import { View, Text, TouchableOpacity, Alert, Dimensions } from "react-native";
+import React, { useState } from "react";
+
+const { width, height } = Dimensions.get("window"); // Get screen size
 
 const MainSystemScreen = ({ navigation }: any) => {
   const [darkMode, setDarkMode] = useState(false);
@@ -8,45 +9,40 @@ const MainSystemScreen = ({ navigation }: any) => {
   function onClickDarkMode() {
     setDarkMode(!darkMode);
   }
+
   return (
-    <View className="flex-1 p-4 mt-[40] bg-zinc-100 gap-y-[110] items-center ">
-      <View className={`gap-y-8 pt-[40]`}>
+    <View className="flex-1 p-4 mt-[2rem] bg-zinc-100 gap-y-[6rem] items-center">
+      <View className="gap-y-[2rem] pt-[2.5rem]">
+        {["TicketGeneratorScreen", "TellerScreen", "MonitorScreen"].map(
+          (screen, index) => (
+            <TouchableOpacity
+              key={index}
+              className="bg-zinc-800 justify-center rounded-lg"
+              style={{ width: width * 0.6, height: height * 0.15 }} // 60% width, 15% height
+              onPress={() => navigation.navigate(screen)}
+            >
+              <Text className="text-center text-white" style={{ fontSize: width * 0.08 }}>
+                {screen.replace("Screen", "").toUpperCase()}
+              </Text>
+            </TouchableOpacity>
+          )
+        )}
+      </View>
+
+      <View className="w-auto self-start flex-row">
         <TouchableOpacity
-          className={"bg-zinc-800 w-[220px] h-[130] justify-center"}
-          onPress={() => navigation.navigate("TicketGeneratorScreen")}
+          className="bg-zinc-800 justify-center rounded-full"
+          style={{ width: width * 0.35, height: height * 0.08 }} // 35% width, 8% height
+          onPress={() => navigation.navigate("WelcomeScreen")}
         >
-          <Text className="text-center text-[30px] text-white">
-            THIS IS NOT A TICKET GENERATOR FOR REPOSITORY PURPOSES!!
+          <Text className="text-center text-white" style={{ fontSize: width * 0.07 }}>
+            BACK
           </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          className={"bg-zinc-800 w-[220px] h-[130] justify-center"}
-          onPress={() => navigation.navigate("TellerScreen")}
-        >
-          <Text className="text-center text-[30px] text-white">TELLER</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          className={"bg-zinc-800 w-[220px] h-[130] justify-center"}
-          onPress={()=> navigation.navigate("MonitorScreen")}
-        >
-          <Text className="text-center text-[30px] text-white">MONITOR</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View className="w-auto self-start flex-row gap ">
-        <TouchableOpacity
-          className={"w-[130px] h-[60] justify-center bg-zinc-800 rounded-full"}
-          onPress={() => {
-            navigation.navigate("WelcomeScreen");
-          }}
-        >
-          <Text className="text-center text-[30px] text-white">BACK</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          className={"w-[130px] h-[60] justify-center bg-zinc-800 rounded-full ml-[70]"}
+          className="bg-zinc-800 justify-center rounded-full ml-[4rem]"
+          style={{ width: width * 0.35, height: height * 0.08 }} // 35% width, 8% height
           onPress={() =>
             Alert.alert(
               "CAMERA",
@@ -55,7 +51,9 @@ const MainSystemScreen = ({ navigation }: any) => {
             )
           }
         >
-          <Text className="text-center text-[30px] text-white">RESET</Text>
+          <Text className="text-center text-white" style={{ fontSize: width * 0.07 }}>
+            RESET
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
