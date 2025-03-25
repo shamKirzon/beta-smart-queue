@@ -5,7 +5,9 @@ module.exports = {
   ],
   presets: [require("nativewind/preset")],
   theme: {
-    extend: {},
+    extend: {fontSize: {
+      "10xl": "40rem"
+    }},
   },
   plugins: [],
 }

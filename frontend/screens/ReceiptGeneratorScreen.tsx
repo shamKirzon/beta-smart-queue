@@ -1,7 +1,16 @@
 import { Alert, Modal, View, Text, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
+import { ReceiptProps } from "../types/ReceiptProp";
 
-const TicketGeneratorScreen = ({ navigation }: any) => {
+interface ReceiptGeneratorScreenProps{
+  navigation: any, 
+  updateQueueInfo: (newQueueInfo: ReceiptProps ) => void
+
+}
+
+const ReceiptGeneratorScreen:React.FC<ReceiptGeneratorScreenProps> = ({navigation, updateQueueInfo}) => {
+
+  
   const [transactionActiveButton, setTransactionActiveButton] = useState<
     string | null
   >(null);
@@ -9,23 +18,38 @@ const TicketGeneratorScreen = ({ navigation }: any) => {
     string | null
   >(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const [activeButton, setActiveButton] = useState(false)
 
   function handleTransactionButton(transactionType: string | null) {
-    if(transactionActiveButton === transactionType){
-      setTransactionActiveButton(null)
-    }else{
-      setTransactionActiveButton(transactionType)
+    if (transactionActiveButton === transactionType) {
+      setTransactionActiveButton(null);
+    } else {
+      setTransactionActiveButton(transactionType);
     }
   }
 
   function handleCustomerTypeButton(customerType: string) {
-    if(customerTypeActiveButton === customerType){
-      setCustomerTypeActiveButton(null)
-    }else{
-      setCustomerTypeActiveButton(customerType)
+    if (customerTypeActiveButton === customerType) {
+      setCustomerTypeActiveButton(null);
+    } else {
+      setCustomerTypeActiveButton(customerType);
     }
   }
+  function handleUpdateQueueInfo() {
+    
+    const customerQueueInfo: ReceiptProps = {
+      transaction: transactionActiveButton,
+      customerType: customerTypeActiveButton,
+      queueNumber: "demo - W001",
+      date: "March 3, 2003",
+      time: "11:54",
+      counter: "demo - counter 11",
+    }
+    updateQueueInfo(customerQueueInfo)
+    
+    navigation.navigate("ReceiptScreen")
+  }
+
+  
 
   return (
     <View className="flex-1 p-4 bg-zinc-100 items-center gap-y-10 mt-[3rem]">
@@ -38,44 +62,38 @@ const TicketGeneratorScreen = ({ navigation }: any) => {
         }}
       >
         {/* popup container part */}
-        <View className="flex-1 justify-center items-center">
-          <View className="bg-green-400 w-[18.75rem] h-[25rem] items-center p-[1.2rem] rounded-lg">
-            <Text className="text-[1.875rem] font-bold">CONFIRMATION:</Text>
-            <Text className="text-[1.25rem] font-bold">Transaction:</Text>
-            <Text className="text-[1.25rem] pb-[0.625rem]">
+        <View className="flex-1 justify-center items-center bg-none ">
+          <View className="bg-stone-700 w-[18.75rem] h-[25rem]  p-[1.2rem] rounded-2xl">
+            <Text className="text-[1.875rem] font-bold items-center  text-white">
+              CONFIRMATION
+            </Text>
+            <Text className="text-[1.25rem] font-bold text-white">Transaction:</Text>
+            <Text className="text-[1.25rem] pb-[0.625rem] text-white">
               {transactionActiveButton}
             </Text>
-            <Text className="text-[1.25rem] font-bold">Customer Type:</Text>
-            <Text className="text-[1.25rem]">{customerTypeActiveButton}</Text>
+            <Text className="text-[1.25rem] font-bold text-white">Customer Type:</Text>
+            <Text className="text-[1.25rem] text-white">{customerTypeActiveButton}</Text>
 
-            <View className="flex-row gap-x-[6.25rem] mt-[9.375rem]">
-              <TouchableOpacity
-                onPress={() => setModalVisible(!modalVisible)}
-                className="w-[6.25rem] h-[3.125rem] justify-center rounded-lg bg-red-500"
-              >
-                <Text className="text-center text-[1.25rem] text-white">
-                  Back
-                </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={() => setModalVisible(!modalVisible)}
-                className="w-[6.25rem] h-[3.125rem] justify-center rounded-lg bg-red-500"
-              >
-                <Text className="text-center text-[1.25rem] text-white">
-                  Continue
-                </Text>
-              </TouchableOpacity>
+            <View className="flex-row gap-x-[4rem] mt-[9.375rem] justify-center">
+              {["Back", "Continue"].map((confirmationButtons) => (
+                <TouchableOpacity
+                  key={confirmationButtons}
+                  onPress={() => confirmationButtons ==="Back" ? setModalVisible(false) : handleUpdateQueueInfo() } 
+                  className="w-[6rem] h-[3rem] bg-sky-100 justify-center items-center rounded-xl"
+                >
+                  <Text className="text-lg"> {confirmationButtons}</Text>
+                </TouchableOpacity>
+              ))}
             </View>
           </View>
+          
         </View>
       </Modal>
 
-      {/* Transactions */}
       <View className="gap-y-3">
         <Text className="text-[2.1875rem] pb-2 text-center">Transactions</Text>
 
-        {/* Transaction Rows */}
+   
         {[
           ["Deposit", "Withdrawal"],
           ["Loan_Transaction", "Fund_Transfer"],
@@ -86,7 +104,9 @@ const TicketGeneratorScreen = ({ navigation }: any) => {
             {row.map((transaction) => (
               <TouchableOpacity
                 key={transaction}
-                onPress={() =>{handleTransactionButton(transaction)}}
+                onPress={() => {
+                  handleTransactionButton(transaction);
+                }}
                 className={`w-[8.125rem] h-[4.375rem] justify-center ${
                   transactionActiveButton === transaction
                     ? "bg-red-800"
@@ -122,7 +142,7 @@ const TicketGeneratorScreen = ({ navigation }: any) => {
         </View>
       </View>
 
-      {/* Back & Next Buttons */}
+     
       <View className="flex-row gap-x-[3.75rem] justify-center pt-12">
         <TouchableOpacity
           className="w-[8.125rem] h-[3.75rem] justify-center bg-zinc-800 rounded-full"
@@ -141,7 +161,7 @@ const TicketGeneratorScreen = ({ navigation }: any) => {
               Alert.alert(
                 "Invalid",
                 "Please choose a Transaction and what Customer Type.",
-                [{ text: "Okay, sabi mo eh " }]
+                [{ text: "Okay, sabi mo eh "}], 
               );
               return;
             }
@@ -158,9 +178,8 @@ const TicketGeneratorScreen = ({ navigation }: any) => {
                 }`
               );
               return;
-            }
-            else{
-             setModalVisible(true)
+            } else {
+              setModalVisible(true);
             }
           }}
         >
@@ -171,4 +190,4 @@ const TicketGeneratorScreen = ({ navigation }: any) => {
   );
 };
 
-export default TicketGeneratorScreen;
+export default ReceiptGeneratorScreen;

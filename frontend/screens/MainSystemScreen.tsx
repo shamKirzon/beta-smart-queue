@@ -13,23 +13,22 @@ const MainSystemScreen = ({ navigation }: any) => {
   return (
     <View className="flex-1 p-4 mt-[2rem] bg-zinc-100 gap-y-[6rem] items-center">
       <View className="gap-y-[2rem] pt-[2.5rem]">
-        {["TicketGeneratorScreen", "TellerScreen", "MonitorScreen"].map(
+        {["Receipt Generator", "Teller", "Monitor"].map(
           (screen, index) => (
             <TouchableOpacity
               key={index}
-              className="bg-zinc-800 justify-center rounded-lg"
-              style={{ width: width * 0.6, height: height * 0.15 }} // 60% width, 15% height
-              onPress={() => navigation.navigate(screen)}
+              className="bg-zinc-800 justify-center rounded-lg w-[17rem] h-[9rem]"
+              onPress={() => navigation.navigate(screen.replace(" ", "") + "Screen")}
             >
-              <Text className="text-center text-white" style={{ fontSize: width * 0.08 }}>
-                {screen.replace("Screen", "").toUpperCase()}
+              <Text className="text-center text-white text-3xl">
+                {screen.toUpperCase()}
               </Text>
             </TouchableOpacity>
           )
         )}
       </View>
 
-      <View className="w-auto self-start flex-row">
+      <View className="w-auto flex-row justify-center items-center">
         <TouchableOpacity
           className="bg-zinc-800 justify-center rounded-full"
           style={{ width: width * 0.35, height: height * 0.08 }} // 35% width, 8% height
