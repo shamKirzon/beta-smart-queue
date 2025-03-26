@@ -33,7 +33,7 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="ReceiptGeneratorScreen">
+        <Stack.Navigator initialRouteName="ReceiptScreen">
           <Stack.Screen
             name="WelcomeScreen"
             options={{ headerShown: false, animation: "none" }}

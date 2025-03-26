@@ -1,6 +1,7 @@
 import { Alert, Modal, View, Text, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { ReceiptProps } from "../types/ReceiptProp";
+import {format} from "date-fns"
 
 interface ReceiptGeneratorScreenProps{
   navigation: any, 
@@ -10,7 +11,9 @@ interface ReceiptGeneratorScreenProps{
 
 const ReceiptGeneratorScreen:React.FC<ReceiptGeneratorScreenProps> = ({navigation, updateQueueInfo}) => {
 
-  
+  const currentDate = format(new Date(), "MM/dd/yyyy").toString()
+  const currentTime = format(new Date(), "hh:mm a").toString()
+
   const [transactionActiveButton, setTransactionActiveButton] = useState<
     string | null
   >(null);
@@ -40,8 +43,8 @@ const ReceiptGeneratorScreen:React.FC<ReceiptGeneratorScreenProps> = ({navigatio
       transaction: transactionActiveButton,
       customerType: customerTypeActiveButton,
       queueNumber: "demo - W001",
-      date: "March 3, 2003",
-      time: "11:54",
+      date: currentDate,
+      time: currentTime,
       counter: "demo - counter 11",
     }
     updateQueueInfo(customerQueueInfo)

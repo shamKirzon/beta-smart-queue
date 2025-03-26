@@ -10,7 +10,7 @@ interface ReceiptScreenProps {
 const ReceiptScreen: React.FC<ReceiptScreenProps> = ({ navigation, queueInfo }) => {
   return (
     <View className="flex-1 mt-[3rem] bg-zinc-100 p-6">
-      <View className="bg-gray-100 w-[80%] p-6 rounded-lg shadow-md items-center border border-gray-300 mt-[8rem] ml-[2rem] ">
+      <View className={`w-[80%] p-6 rounded-lg shadow-md items-center border border-gray-300 mt-[8rem] ml-[2rem] ${queueInfo.customerType ==="Priority"? "bg-blue-100 " : "bg-gray-100"} `}>
         <Text className="text-6xl font-bold tracking-widest text-gray-900">
           {queueInfo.queueNumber}
         </Text>
@@ -37,7 +37,7 @@ const ReceiptScreen: React.FC<ReceiptScreenProps> = ({ navigation, queueInfo }) 
         className="w-[8.125rem] h-[4.375rem] justify-center bg-zinc-800 mt-[8rem] ml-[13rem] rounded-xl"
         onPress={() => navigation.navigate("ReceiptGeneratorScreen")}
       >
-        <Text className="text-center text-[1.25rem] text-white text-[1.4rem]">Done</Text>
+        <Text className="text-center text-[1.25rem] text-white text-[1.4rem]">Print</Text>
       </TouchableOpacity>
     </View>
   );
